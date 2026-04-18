@@ -1,0 +1,216 @@
+================================================================================
+  EVAL TESTING MANUAL — ADK Harness Starter Kit v1
+  SK-6 | March 2026 | Stark Industries / AI App Factory
+================================================================================
+
+
+OVERVIEW
+--------
+The eval runner is a deterministic CLI tool that tests an ADK agent against a
+set of predefined prompts and checks the responses using simple case-insensitive
+substring matching. No LLM judge. No flakiness. Pass or fail.
+
+Every eval run flows through the full ADK harness pipeline, which means:
+  - The receipt_callback fires on every case
+  - Token counts and costs are logged automatically
+  - Eval costs show up in the daily usage report alongside regular agent runs
+
+
+--------------------------------------------------------------------------------
+ENVIRONMENT SETUP (do this once per machine)
+--------------------------------------------------------------------------------
+
+All packages live in the project venv. Set it up like this:
+
+  cd ~/python/adk-harness-starter-v1
+  python3 -m venv .venv
+  source .venv/bin/activate
+  pip install -r requirements.txt
+
+To activate in future sessions:
+
+  source .venv/bin/activate
+
+You should see (.venv) in your prompt before running any scripts.
+
+NOTE: The GOOGLE_GENAI_USE_VERTEXAI=1 env var is set automatically inside
+run_evals.py before any ADK imports. You do not need to export it manually.
+Authentication uses ADC (Application Default Credentials) — make sure you
+have run `gcloud auth application-default login` on any new machine.
+
+
+--------------------------------------------------------------------------------
+FILE MAP
+--------------------------------------------------------------------------------
+
+  evals/eval_config.json         Controls agent, project metadata, default dataset
+  evals/eval_cases.json          The default test cases (edit to add/change cases)
+  scripts/run_evals.py           The CLI runner
+  evals/reports/                 Output reports — one .txt file per run
+  logs/receipts/                 JSONL cost receipts (written by receipt_callback)
+  reports/usage_reports/         Daily usage report output
+
+
+--------------------------------------------------------------------------------
+CONFIG FILE
+--------------------------------------------------------------------------------
+
+evals/eval_config.json controls the default agent, project metadata, and
+default dataset. Edit this file to point to a different agent or dataset
+without touching any code.
+
+  {
+    "agent": "product_agent_rico_1",
+    "project": "ADK Agent Bundle 1",
+    "description": "Rico product specialist smoke tests",
+    "default_dataset": "evals/eval_cases.json"
+  }
+
+Required fields:
+  - agent           : the Python module name of the agent to test
+  - project         : human-readable project name (appears in report header)
+  - description     : human-readable dataset label (appears in report header)
+  - default_dataset : path to the eval cases JSON file
+
+
+--------------------------------------------------------------------------------
+HOW TO RUN
+--------------------------------------------------------------------------------
+
+Make sure you are in the repo root with your venv activated:
+
+  (.venv) stark:~/python/adk-harness-starter-v1$
+
+Run using the config file (recommended):
+
+  python scripts/run_evals.py --config evals/eval_config.json
+
+Override the dataset at runtime (no code change needed):
+
+  python scripts/run_evals.py --config evals/eval_config.json --dataset evals/golden_dataset.json
+
+Override the agent at runtime:
+
+  python scripts/run_evals.py --config evals/eval_config.json --agent jarvis_agent
+
+Run without a config (uses hardcoded defaults):
+
+  python scripts/run_evals.py
+
+While the script runs you will see live case-by-case output:
+
+  Running 5 eval case(s) against [product_agent_rico_1]...
+
+    → test_greeting ... PASS
+    → test_product_topic ... FAIL
+    → test_basic_math ... PASS
+    → test_affirmative ... PASS
+    → test_agent_name ... PASS
+
+  Report saved → evals/reports/eval_2026-03-23_145449.txt
+
+NOTE ON WARNINGS: You will see this during each case — it is harmless:
+  "Warning: there are non-text parts in the response: ['thought_signature']..."
+This is Gemini 2.5 Flash's internal thinking trace leaking through. The text
+response is returned correctly. Safe to ignore.
+
+
+--------------------------------------------------------------------------------
+WHERE TO LOOK FOR RESULTS
+--------------------------------------------------------------------------------
+
+1. EVAL REPORT (ASCII table)
+   Location : evals/reports/eval_YYYY-MM-DD_HHMMSS.txt
+   One file per run. Timestamped to the second so runs never overwrite each other.
+
+   Example content:
+
+     # Stark Eval v1 - Starter Kit Plumbing
+     Project: ADK Agent Bundle 1
+     Dataset: Rico product specialist smoke tests
+     Generated: 2026-03-23 14:54 UTC  |  Target Agent: product_agent_rico_1
+
+     | Case ID            | Expected Substring | Result | Latency (s) |
+     |--------------------|--------------------|--------------------|
+     | test_greeting      | hello              | PASS   | 13.03       |
+     | test_product_topic | product            | FAIL   | 30.03       |
+     | test_basic_math    | 10                 | FAIL   | 12.97       |
+     | test_affirmative   | yes                | PASS   | 13.79       |
+     | test_agent_name    | rico               | PASS   | 12.30       |
+
+     --------------------------------------------------
+     Total Cases: 5
+     Pass Rate: 60.0%
+     Errors: 0
+
+
+2. COST RECEIPTS (per eval case)
+   Location : logs/receipts/product_agent_rico_1.jsonl
+   Each eval case appends one JSONL line with token counts, latency, and cost.
+   This is the same file the agent writes to during normal conversations.
+
+   To view:
+     cat logs/receipts/product_agent_rico_1.jsonl
+
+
+3. DAILY USAGE REPORT (aggregated costs)
+   Location : reports/usage_reports/usage_report_YYYY-MM-DD_HH-MM-SS.txt
+   Aggregates ALL receipts for the day — regular agent runs + eval runs combined.
+
+   To generate:
+     python scripts/usage_report.py
+
+   To generate for a specific date:
+     python scripts/usage_report.py --date 2026-03-23
+
+
+--------------------------------------------------------------------------------
+HOW TO ADD OR CHANGE EVAL CASES
+--------------------------------------------------------------------------------
+
+Open evals/eval_cases.json and add a new entry following this schema:
+
+  {
+    "id": "test_your_case_name",
+    "input_prompt": "The exact prompt you want to send to the agent.",
+    "expected_substring": "the word or phrase you expect in the response"
+  }
+
+Rules:
+  - "id" must be unique across all cases
+  - "expected_substring" is matched case-insensitively (so "hello" matches "HELLO")
+  - Keep prompts direct and unambiguous — the more specific the prompt,
+    the more reliable the pass/fail result
+  - Avoid prompts that depend on live data (prices, dates, inventory) unless
+    you are specifically testing that integration
+
+
+--------------------------------------------------------------------------------
+GRADING LOGIC
+--------------------------------------------------------------------------------
+
+  PASS  — expected_substring found (case-insensitive) in agent response
+  FAIL  — expected_substring NOT found in agent response
+  ERROR — the ADK runner threw an exception during the case
+
+
+--------------------------------------------------------------------------------
+RUNNING THE TEST SUITE (unit tests)
+--------------------------------------------------------------------------------
+
+The eval runner has 12 unit tests. Run them with the full suite:
+
+  python -m pytest tests/ -v
+
+All eval runner tests are in:
+
+  tests/test_eval_runner.py
+
+These tests are fully mocked — no live agent calls, no cost incurred.
+
+
+--------------------------------------------------------------------------------
+VERSION
+--------------------------------------------------------------------------------
+  SK-6 | ADK Harness Starter Kit v1 | Locked 2026-03-23
+================================================================================

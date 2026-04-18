@@ -1,0 +1,27 @@
+[
+  {
+    "id": "test_greeting",
+    "input_prompt": "Say the single word 'hello' and nothing else.",
+    "expected_substring": "hello"
+  },
+  {
+    "id": "test_product_topic",
+    "input_prompt": "In one sentence, what kind of products do you specialize in?",
+    "expected_substring": "product"
+  },
+  {
+    "id": "test_basic_math",
+    "input_prompt": "What is 7 plus 3? Reply with just the number.",
+    "expected_substring": "10"
+  },
+  {
+    "id": "test_affirmative",
+    "input_prompt": "Reply with only the word 'yes'.",
+    "expected_substring": "yes"
+  },
+  {
+    "id": "test_agent_name",
+    "input_prompt": "What is your name or what do you call yourself? Reply in one sentence.",
+    "expected_substring": "rico"
+  }
+]

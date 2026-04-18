@@ -1,0 +1,566 @@
+{
+  "eval_set_id": "ARCHITECT_SMOKE_TEST",
+  "name": "ARCHITECT_SMOKE_TEST",
+  "description": null,
+  "eval_cases": [
+    {
+      "eval_id": "session_memory_restore",
+      "conversation": [
+        {
+          "invocation_id": "e-bee154d5-8870-4b06-abb0-6d87cd32b750",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "What did we work on recently?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": "CoEEAY89a18izh0uANLwEi5043pjQ-kQDS-RBQMUF03wMJn07abY0Kv8IMOW0Ug8iC6kZZz3UN0Tpfo19l4W9KecpSVYwgjU1L4tImbi5al5pS8eq1gWR-z3sT8dl-W82EydUrR9dQMLUHnmea64hKdKHzkDfQqLfsGKc9AWyKLDbHs8qs3CU8uOuv-4vgXhQeYvNu0JiZO2NZNbiaDRGJ2aC7w9yQp5GK8z3ksSuM056-QWV0C70yo0j4W66Sg8Vglp5K5YMHR4OFP9RZ8qT0hwWrpXrdc24NYkwNzSAql6L2k_AB7SvoU7XBC8mie21Nki97vHoZL8S2sOaD8eTMm64wGRFu2YO9LORuXG76dhgkkrq9bLVcXEfF1b1eKXLTj8eqgZgafBfXdUMh4rlSpJgKsMFUx_BYmZjX1O9h3UPDX3_nb1FxWk1zFHen37UOyQduON0htOexJbi_lqpOrGSHtOVMMThpwtNo_Jo5QgmRMlu5gmJM50qFapKTm4xhoHnCfMVqNb5ORyuDNgcRg5ZG-R6-50gfTfqChHdI9M8s_7SXYxx9DsrH3KQgCYa6Hw5V2EOkU0QcstEXGDZJQ43cJtgZHZdD1qeWV8RoZY12NUzw5XAf1cL04AE5f3eoWlmRIQ5cjVDKs4RI1K4zBoAQTYCV8LFylTVYAPJQLRU4nA",
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "It appears we're starting a fresh session for this project, as there are no recent session logs on file for the last 7 days.\n\n**What I Hear**\nYou're looking for a recap of our recent progress before we dive into today's work.\n\n**Recommended Next Step**\nSince I don't see an active **APP_BRIEF** or session history for a specific application build, our first move should be to **establish the project baseline**.\n\n**Current State (Based on Factory Context)**\nWhile we lack a specific project history, our core factory infrastructure is fully established:\n1.  **Skills Architecture:** We recently finalized the **InvokeSkill** pattern and **Plan Mode** mechanics (documented in the Tier 3 Design Archaeology).\n2.  **Context Engineering:** The layered context architecture (Identity, Manuals, Session Memory, RAG) is operational.\n3.  **Core Manuals:** Tier 1 and 2 manuals for Architecture, API design, Database, and the Software Factory Playbook are locked and ready.\n\n**Risks / Red Flags**\n*   **Missing Scope:** Without an `APP_BRIEF.md`, any architectural advice I give will be generic rather than project-specific.\n*   **Context Gap:** If we *were* working on a specific app and the session files were lost, we need to manually reconstruct the current state.\n\n**Action Checklist**\n1.  **Confirm Project:** Are we starting a brand-new build today?\n2.  **Run Questionnaire:** If starting new, I'll run the **Architect Questionnaire** (from Tier 2 docs) to extract the raw idea and freeze the intent.\n3.  **Draft APP_BRIEF:** Generate the initial scope document to lock in the mission and constraints.\n\n**Ready to start the ignition questionnaire for a new project, or are we picking up an existing build that I don't have the files for yet?**"
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "id": "adk-d9b7b875-3dd0-4e51-b166-922a25cc1922",
+                "args": {
+                  "skill_name": "SESSION_MEMORY_SKILL"
+                },
+                "name": "invoke_skill"
+              },
+              {
+                "id": "adk-01fda0b9-862c-4e53-adeb-4cb3d1fcde2f",
+                "args": {
+                  "days": 7
+                },
+                "name": "read_session_memory"
+              },
+              {
+                "id": "adk-b865e35f-3b5c-4261-a2c4-5e3a9f629144",
+                "args": {
+                  "doc_name": "CONTEXT_INDEX"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-8401acb3-a3e1-4f55-b9c8-43bf2b3754b9",
+                "args": {
+                  "doc_name": "APP_BRIEF"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-35854326-8a46-4574-8d35-d7244540a0a0",
+                "args": {
+                  "content": "### 02:50 — RESUMING\n\n**Context:** New day detected (2026-04-14). No session memory found for the last 7 days.\n**Last session summary:** N/A (First session for this agent/project context).\n**Current state:** AI Factory foundation is established. Context library contains core manuals (Tier 1) and Design Archaeology (Tier 3) covering Skills implementation and Factory strategy. No active APP_BRIEF detected.\n**Next:** Establish the project baseline or start the Architect Questionnaire."
+                },
+                "name": "write_session_memory"
+              }
+            ],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1776134933.242893
+        }
+      ],
+      "session_input": {
+        "app_name": "architect_agent",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1776140582.314905
+    },
+    {
+      "eval_id": "skill_invocation ",
+      "conversation": [
+        {
+          "invocation_id": "e-b62ddac6-6efc-48c1-9026-a984e91dd86a",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "How should I update the session file?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": "CpIXAY89a183p6evBNWDUHsmdULj-cL_Esz8xArQYkGFNSrqk-PrD6UVM7CKCbOdkG_bvZRG81I9Hk0DchfduvT9qJpa5GR-WS4nJNoH2UDCT_8ab_iMnwQtqiRDS1IE0VaGR3-XByxnhyZpjtPCbkEHsCF9S17pCFor0XKJnrohscSic1cO_whoiEiByplXwurNYkBWItHTcYYGA1hU_sdI0LrLksZMiBzYMG1mDlmYpHe6ADbc3fcTfDm4n_CMtZd6cmSsubBQ3EhC8cNgNY9apaHATRwu8gu4DgmGOwfMv-mUdt060mMSqhw1FZKHpwBsYIiMyfjVspl90l_D3n3xAuvPw2Nsc2DC1wAyufLn4Ioi7k7VDaToOUbzyAknxDIGBqrE9jF8YMcWSeEEC_L7M0fnGnI1ngLm1AA-6wN5mYbW1nlVTF8_grxFXgHK19-Sm_ahiA6noleBzIUWgpTLrgn3W2dLXXAmv_O14wt2kThtVfoEcRhyH_g5JZURdXw6wZ6JNx0hP4FQHoY8oImE7nIpLXTABOS42uJs-JkTeMdEOEUZtpujVQih5h1yh0aTrSvnikltpoD0g1F5SFlTDXhdfkKZ3M_HoyExOvoZGw6U4jMEkozT9kkmtBlhsRvfcgwE3Zn5FolDJUfHg9QrtjuuHLzMEYfX9c_HptICTk_ZhqSrr8ctmStMyHGSBHr5yMiMbx9zifY1D8J2e8nETito4YpzLyXRL5A3v5nDBEvIGT2KZ_kslwKYT9C2_F_pbl4PexJTOt0Cq9fOCK0bursDxqvqoAWxKxlnWKn4s9B-I2pWvWeIeSQemg_Vhfq4e-_WweTjF8--oUnOj2KkMZ24F-K3BDZ-0RlMuD2mZ43N68ZgRMyEBq4RGcR3YImgS3Uuu6nPq6iIb7y9AhE5EyoIitQ4ghHinDLx41ISwpF3mBK4fwtNNWcZq33mQg7JYfzr48Qk06P1oiPzWi9MaSKrQ9-qSK-AUAYenMmaKs_9gDwXonNngAqNj54vb8I7b_6xMC-qtg3kX4nJHczkingvcyiDmpkF5f_eby12PzNpYUa76OcEIVssHE0rZjeMt-W82XYFWIfAywC5fqHp_n-SES8QpwFt1nmQqjTEXbBxLh29YJEUeaeKCse3qbuoZroygeWjLAnJ5GCNZH74XNCKwcnYjFSfloGyHPglD4AuZSaBf6E45y1z_Cp1zC6eZ6QoPwppmznqMuf2D1TD3X3qHYewzXiC7ckkGW-VnaNnYo_dF552tvrZVjz4LTGbDMAn52BkDIHkY83-EJMbo77jACUII1dr6y6Q-IRKN3Uf6jqfcH9Bnbiar44deeh1DILwZrWh7qrnewZrDJbSKDOn7td0EPWELpvvAIkGPsrYNEEsQo6CcNZBvMLxb_kNYW_s_WXKyj0tpFycvjk7i1OI3mp9nIqgTMiIUUYMUN_YUTI925_N0f70d3zpDmFB9gT6wA7obIxNSMsK4E5M5Kt3311IgznriDdeGSgymcHUwGBxpWJMJHYPoG0fssS_MGL0nOXyQAchbUN-0Yq2PGiQMde7v5m5XCNkswy9SsQalLtp7tI69dK0gcnpilfAYexznaDo6P3mK8_abOjhN5lX3ehMj-0zywD-ek4ptcr5DGw_YHFB8zqDK4kDk7WWK_b1GJkLdQ2EaVhQqw9OTz9rCDy7wG7Pjs4A7CfxwtXMgl04d77MHOuTuTF1LaiRXJZPUdMIKpbAbkJS-b1cDDobYskyGJ2LafOjY4hKIb2TTROxf8ccvrWDkHVhYbE2fGC5rQk9z8Fyl3CBZsgEWaH1T_si9uwyyQJruSiTdCy1mtXpkKFDkN8ho7yXFf3TF3aVpW6qSlFwvLPyEQBGaleIAWfZFg3-JmUqU66-b2BDC_cp46p6wJ0M456tN3cM8_dEzXbg3Im25moKGLJobjx0veBVNZBfC6P28xTamvW0AsezDcfSnQKSoYu339BslKLmypIiP2_IvKrPP0Jf1xAllk2lXDcTG9C-qaxl2kT_vg-XyrL4An7F6peR3BXsbgAPj0YK5v5pz0qrFvV3SveP58HjldPnrpzaE4IKTYLZd4Z1tqZrV2xb1s8O96WHKmr6iRc49hMFQt4RKdz8A6w3Zu4ObZ-GgkwCcdAfcz9n1ePenqTlyeCyVUi5s79qqMLHezwz4l5MqiHUtS6aqQVW1nyWL_abUUSj3EkHmALjtG1wWpGUHJ_5_JgxqjNOtZGsuTHllYx_LwOgTK6XIqSXIjpTq7QZfDyQs92Dvn6Z3IMZFrI_8Xsoctz_hzudd75nY-IrNNvIMAnkrk9-g4Og4YPwZGuufmm1SkiYinhUkneSAEDtRxkgO9emtP8gRJRw_FLUvXIFJ4QiwexoacThVlNHqR4H6U-RtHoGrU9uC97xWJkQpxV3LHIxZswlJihkhSAdwUu_zmqes4ck4htxgOKys_hXdetqM2c1UOQ-yfxN7imhP_W-1tea7W0vefiBMTX8Mhs8MrAjv4zwpvb5wV94BiFcOFgpisq9T5ms79ZzqCUS_uhBNClN9T73Dwu0xN9akhLP9RJsvo5fZLJ1ZE0pYOt9nDPzR5arGUv6ODg1fwimR4OhevjP_vOg-fS1loHhyUuDTrNXpIyJNKnXBO7t2uC5C6Gcgi1TFECR7UPj7gCFOIokBQJhogQgHBP3V1R_5j_oWBwyS9whTg1ehdFuCKaPRzaSxBcCHlykjKDkliNTUW1fV4AvLeR87Ovpnfz3S9vjng0lPt2zAUmX6EaCqv517tUtdRZwblUEF-n4M0-r-Jiii7r_0Tc7grwmqPBmNJAjXTIXgE1sLHsotj0sURDreS0Kk6EZNcVy6ZOXoDRaVymp9GLXhtrFKwPfonZMW37t6hxbjI6TIM5e6TEIi060eA1hnWRZ94W0ha8do5R94SDRS3vxUKtIk4-p8shBApHYiVyRt0Ue3OPvTh0nXp_Zk_u_5zHN7j_c58Uh4R9aK6EaPi0fIRiEPHqYrYiZYknMgKZWwYBjG8x2kWuzXPGJpNoDfX-WqgHO4MFFfV8Z_lp3GtDOybObtq3-oUmGlsqgG1u4tKadp1B2SVfkN8n42ZhQiMs5wD0_Uu9nkiHPw6uWukDdpS6CRhQRno6eJtbkxKX8t8T1SOQpHoG0XVuiXgIcHDruTUkoFZvHQC6sve31vqhDt5_5DsM40VIVOZX6D96sa1fHD8-sJZs8R8aY0PlQAqjJgQMSWzFaor1IxFkTiaYN6PN1l0OwLynaRCrY926alxRAacEGboWhFzjgq-on5TxVSZFhzTU1frNYevZdicoMQ228iItIEjpp6ft2_CMmEVynvhy5mALhQgUvMBnf-VJmXMqz28mpzjNdWX3ApuXSgq2TPgERGN6dQqV0b9Y6yND16nDN-MnowjtIXAywvSStU_0sRAHDcOfFF79StU5Vi1w3igCKt377ij-dptkeeZ_8lc00FarGZzv0Ho6dMlaYD9P0Yq1a4e8F8qnPZymm1w2gm17EAGI3ukbNyHf69JwiCjC5B0HstkHYLdpF4D30WmfsArOk11mCy-Iu_kpMhE6m1gc9b3PPUv_-TD86rojHL1vT96JpfxzUHP7tlLzLEmvC3VirL-kYzhV36zagHW8hfF8VT0j9nVbF8wHwMKz43g3-UIeHcxE_MtS9hQ7ZqR-Cfdw341xBk4ALbS8DV1t0XWVVOzGIcdUiDqNYWep_UoSy1lfDOES5pchBtT1wu0GxeKx70_40U8HrEEWj0OmZY4xMSzWAQndlp4zE7IA7k4cleptk6FReNu-pB6nB4tVjtxblVtn9kDV5SxUxsR2HVMHtQpZXh17eKmxIbBptkYxmJIDJ37-STny0NovJeHhUaYOIFoP1rLkD8cchZfbbW6AEh9SkiDuc0rfTG1n8z-eP-IOBUO1sJI3cvjV1npOrtQ==",
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "As the Architect, I follow a specific protocol to ensure our project continuity is preserved in the **session memory** files. Since we operate in a stateless environment, these files are my only memory of our past decisions, blockers, and progress.\n\n### **1. What I Heard**\nYou are asking about the procedure, timing, and format for updating the session files that govern our working memory.\n\n### **2. Recommended Next Step**\nI handle the mechanics of updating the session file using the `write_session_memory` tool. You can trigger an update at any time by saying \"Save that,\" \"Note that down,\" or \"Update the session memory.\" I also perform updates automatically at key milestones.\n\n### **3. How Updates Work**\n\nI follow the **SESSION_UPDATE_SKILL** workflow, which dictates:\n\n*   **When I update:**\n    *   **Milestones:** When a task or deliverable (like an `APP_BRIEF`) is finalized.\n    *   **Decisions:** When you approve or reject an architectural proposal.\n    *   **Blockers:** When we hit a wall or identify a major open question.\n    *   **Directives:** When you explicitly tell me to \"remember\" something.\n    *   **Session End:** I always write a `SESSION_END` summary before we finish a conversation.\n*   **The Format I use:**\n    Each entry is time-stamped and categorized (e.g., `DECISION`, `TASK_COMPLETE`, `BLOCKER`) with clear sections for **Context**, **Action**, **Outcome**, and **Next Steps**.\n\n### **4. Risks / Red Flags**\n*   **Under-logging:** If we don't record a decision now, I will start the next conversation with a \"memory gap,\" potentially forcing you to repeat yourself.\n*   **Noise:** I avoid dumping raw code or logs into the session file; I only record the *outcome* and the *location* of the work.\n\n### **5. Action Checklist**\n*   [x] **Restore Context:** I have already read the last 7 days of memory (we are currently in a fresh state for this project as of today, 2026-04-14).\n*   [ ] **Identify Progress:** Once we make our first architectural decision or define a scope item, I will record it.\n*   [ ] **Handover:** At the end of this conversation, I'll provide a `SESSION_END` summary to bridge into our next session.\n\n**Current State:** \nWe are at the beginning of the project. I have initialized today's session. No active `APP_BRIEF` or project scope is currently locked in memory. \n\n**How would you like to proceed? We can start by establishing a baseline for a new project or reviewing any existing materials you have.**"
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "id": "adk-01c1af91-1054-4a4e-b3b6-d78343c556ca",
+                "args": {
+                  "skill_name": "SESSION_MEMORY_SKILL"
+                },
+                "name": "invoke_skill"
+              },
+              {
+                "id": "adk-325652ba-cf84-4ad5-8bdb-141071c667ed",
+                "args": {
+                  "skill_name": "SESSION_UPDATE_SKILL"
+                },
+                "name": "invoke_skill"
+              },
+              {
+                "id": "adk-a6c3071d-a655-4cc9-ad15-624efb23918b",
+                "args": {
+                  "days": 7
+                },
+                "name": "read_session_memory"
+              }
+            ],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1776141093.321756
+        }
+      ],
+      "session_input": {
+        "app_name": "architect_agent",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1776141382.7015073
+    },
+    {
+      "eval_id": "Context Doc Loading",
+      "conversation": [
+        {
+          "invocation_id": "e-d9f3ced5-6787-4098-a6e8-eb461379e0ff",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "What does the APP_ARCHITECTURE_MANUAL say about folder structure?"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": "CsYNAY89a1-cfddb0w5In1Kc3td8-xZCLlm1ipC7Md-HAvKjlnUPbHlHRIhq1h0nXbo-soetqQTIW9zCzfcEuR4nwchZ6luA6AJ3seyzovzox4jBEeNlQgsjpyz9n3KEBEjWiWIWhOy1yfgwIdOBv9AmDdDCTgf6V4KT35kABnZVs2SMBXP6arAyLFhkdHTXltKI6y0crdygddY0gSd3NI3uos3i3HE4aHyzhDjOJxoRklkVqbXnZzq7V-HKiZTbGApitYM9zMeIrAgpcjIYEpsCAqTBmFLnnqetwmgULjrDX_G4eReTLaFwI4POlQ6iT5HzYnkAmoDRiENEq1SQ-EplQEKgJS_P8fcKDBH98XdjU3rPHD1u6WrOTpWSlUXiMV4CSsyryiICqPAJaHV8mcDWkfX-hWTZvg4EHm1tQZFsUJwvInFPICYLDC48x7EPbOpxgB7ka8xSWWVOEJaiV4D0nb4NhFMuFQo6XLxBw3rop8R07GchRiCnzFmR8emkGoFmR2ry3nyNwW0IQmflYevW8MKMxIYROHO0yvCffQPHayOo0IlthvUxJmPULkJ2Dga0fqLHy2YHjVizNVj9qvs0DZhIpmj64aaE69ii01hJPbqJtT5mC2z8LI2rXv_Z0nGMoFGdHuUTiDwnb7OdcxvaP1MUn99f4Zn3hIW4SwuLs0p-BewIQvKNeNCseySnmbJRsZwSSqO9W5QWn3-HTmRmex2eZjbzAqUApcE3nNLX5fZoGHzE8KH-VkLZA_mEfJ2a_6gRgnF-i0-ljqTheO0ZyfcmR7byZnr3EHonoGnxD5J0MdNxowx89zXQ8utC_lUgKH0wm0hEYCoKvrla1a1VdSzAXrcOKACWCoWhJk_5pf5VljgYskDiXObfE4xaXLRENiW6UgayheGzKsA-qXzLsyWHj15YqG8y-rqjb5h3CpHFWcMjbnfZeCfItaoGVFCbCQYBUt2ho9sFk1dJS-Ngzu8Gp8V1EgYNlSUxbbjn05P4Iff6tkFuRjN8OIQ0ikxnxYtR0U8mh5goZ645pw6S-O5Qwc-F22NXsArWECSSTX1V0tEZgCaNwZA0OFfP9-W2mDlQfVh0_AKu_qgdjJE4EKpvWY5Oh1zwfzHblJNWt3CAOhIr0ebTlBkpeBI5i9ThlKaBCl6P0etsbAymYi_JwuJROGOYnNSqu0Ijs8zEzklNnvVNPfDvTONFldGktCZ7ovDDkuxpqur6otdshQdUhrtLCyLHmocE_mci94RpFC0bUkUYn0-3lLo45Oz2cpt30V0jdFdZM1zo_NyAGyPfiXbGJvApuUP_RHkv60x_Pzc02VC7OzozKJ2VbT94O_t-H21iqnP4UX_FjTKHbJ_rcVrZOvMsn6Mb-wNscbdP_LgnWZBzxiuUFRW_kOroFjEQfR8HCPHJ9YmmK-Ur24JFVsc00PlRDC1wjJ8wIdya0o3HI1xG6XZGsGG7UWCGKw2wR3VJOCw2plAVib9PugaJdODe48ZtdC78xCtTcbGMDShjrFax6gvQ_3culHzXGFVY4Zw9gJHflWUUp1hMU1FFha-gBwc39h8YWk-ofQdICRbo43eLM7mJXxOl5A-ThglkrUUbig0FljVIQs6K0KBq0f7C30T3x4fOt4ys0YYRkBDVrGXuRbFpZrUz9GP5w_vHbUNw-5mTekHFRD_2cHn6lpdfNbBxVd2aqy4t-tnImDmvpIl1x94-SEMj7QEJtq0k0L_u8OfRTg8Qd82XKR0gojkQTZPJX8lAvxxUx2IAV2OqCn6Ar3pHDsQWXq3Im1zVwea0VQs2wqQa2iYAhmXyWROpot-s5gJAmkSAlH2IVi6ymuz3PG1OiBLv11gzueRF5C8gkaxwgSTW0TRAqujbN_TgdeWozWLfUsAh-ChOqd5IQvRLP-VcgsZcxahYkWmoCRFJm7VUyZMQ8kM9SSJizXtNfvt7rblYG4bFhz-tygySrOseQX9uT10UNu9HdQHblncF6o5O9J0MgZJdvuKs4tdN4DiqGTOQz4pS7IT_K_LZgzWbmmbbQ-YEdRE9CA4hHvqg8ijDfe2geNKLKt59dDrlft8CCJvXokRrY_Jz2JveYu-g16vyuX04xVCppsO9i5ncxK2O7mIAX7-xG7fpe3JZHrX8Apcl07mNsbg7X8TKs4VSZnL5Eq9SIcpL0mejugSed2E5u24ICEr0PV2zShbZ7hNoA16DImH1MNsFu8re1VU4vFiOe7d7c2qFVc9ZCyykiPxRfp4gft8L64PGLI0VfiAfu9j7awJrXCJhX5HUY-MWFZrcqBaxflQA1aFm19OwEifz",
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "The **APP_ARCHITECTURE_MANUAL** defines a structured, domain-driven approach for a Next.js 15 App Router project. It prioritizes the separation of concerns between the UI, state, and external service integrations.\n\n### 1. What I Heard\nYou are looking for the specific folder structure conventions defined in the manual to ensure current or future work aligns with the factory standard.\n\n### 2. Recommended Next Step\nMaintain strict separation between **Client Components** (interactivity) and **Server Components** (data fetching). Ensure all external API logic is isolated in `src/services/` rather than living directly in the `app/` directory or components.\n\n### 3. Folder Structure Overview\nThe manual breaks the structure into the following core directories:\n\n*   **`src/app/` (Routing & Pages):** Uses **Route Groups** to organize by access level without affecting URLs:\n    *   `(public)/`: No auth required (e.g., `/shop`, `/blog`).\n    *   `(admin)/`: Admin-only routes (auth protected).\n    *   `(customers)/`: User-specific dashboards/orders.\n    *   `api/`: Internal API routes (proxying external credentials).\n*   **`src/components/` (UI & Interactivity):** Organized by scope:\n    *   `ui/`: Base primitives (shadcn/ui).\n    *   `global/`: App-wide (Navbar, Footer).\n    *   `common/`: Shared utilities (Container, Spinner).\n    *   `[domain]/`: Domain-specific (e.g., `shop/`, `cart/`, `checkout/`).\n*   **`src/services/` (Data Layer):** The source of truth for all external API calls (WooCommerce, Stripe, Supabase).\n*   **`src/store/` (State):** Zustand stores for client-side state (Auth, Cart, UI).\n*   **`src/lib/` & `src/utils/`:** `lib` for third-party client initializations (Stripe/Supabase); `utils` for pure helpers (formatters, Tailwind `cn`).\n*   **`src/types/` & `src/constants/`:** Centralized TypeScript definitions and configuration (API endpoints, routes).\n\n### 4. Risks / Red Flags\n*   **Logic Leakage:** Putting business logic or raw `fetch` calls directly into `page.tsx`. This makes the code harder to test and reuse.\n*   **Component Bloat:** Mixing domain-specific components (e.g., a `ProductCard`) into `common/` or `global/`. Use the `[domain]/` sub-folders in `src/components/`.\n*   **Credential Exposure:** Ensure server-only credentials (like `STRIPE_SECRET_KEY`) are only used in Server Components or API routes, never in Client Components.\n\n### 5. Action Checklist\n1.  [ ] **Route Grouping:** Verify routes are organized into `(public)`, `(admin)`, and `(customers)` groups.\n2.  [ ] **Service Isolation:** Move any existing data-fetching logic from components into `src/services/`.\n3.  [ ] **Component Audit:** Move feature-specific components into domain folders (e.g., `src/components/shop/`).\n4.  [ ] **Next.js 15 Compliance:** Ensure all `params` and `searchParams` in `app/` are handled as Promises as per the manual's \"Async Route Params\" section."
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "id": "adk-64dc0800-04e2-49ad-900a-36fccf3089eb",
+                "args": {
+                  "skill_name": "SESSION_MEMORY_SKILL"
+                },
+                "name": "invoke_skill"
+              },
+              {
+                "id": "adk-90e18576-c51a-4400-92e7-6144798fadeb",
+                "args": {
+                  "doc_name": "APP_ARCHITECTURE_MANUAL"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-a5ff4ff2-7b34-4427-acd5-5ca16c5072bc",
+                "args": {
+                  "days": 7
+                },
+                "name": "read_session_memory"
+              }
+            ],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1776147423.483663
+        }
+      ],
+      "session_input": {
+        "app_name": "architect_agent",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1776147529.5692964
+    },
+    {
+      "eval_id": "Scope Discipline ",
+      "conversation": [
+        {
+          "invocation_id": "e-f72c156c-9d5e-464c-bf28-f58e1a34c9e4",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "Let's implement a React Frontend"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": "CpQJAY89a1_VIUQgbx9DOpfFvWNknpJCnVkdCgbYlYDB8yUVPZ94hYRT7S4Q9F7lH-ibzY-ksepEn14frk9zx-zQbpqgyYG2WQiNhI403mAeSlcEtQ-PfwIeXjLVwHHERT7lJcRQxaecagmjerYRHX9YIVM1Jb7YmQLUotEvOTixqumz4sBKFUsCODb-ZT2kw57r24PiKsTm15DklFz_7dJHtxsDR41CNIYJ-G0HMOcq03XCjQzseqv3YTvzCULNK3v6m379p1IxQn-GNh5Y11e1lbeecPQu96Q8jh_Gi8oBrllC6QI8ObjJtS72Sh9LCMFgEw2FuWnj5iWfZncbrIi7kTrUGfRhAea-PFpqzSTO4ujbpvDMwJlxv0G7p36L9d_2l7JDQ8smUkxSPTw5z9W76PChsnjy0dqkc-GVa3TqB5c-LbaHOE0_hD-rBT5YHzaXFrlbcAxepfo_EGVtXzkKs2N3Xs9SPNssbrX9LZ91MMDH0l_KWamTZHFkLxo4ppRKgM4GglZ1Xr8yMpdv2MyrZnT_OP7Q9Lv6ju7qUiOS-L5z9n5uRnBivYoGdP0XK01moaFavteFxEc_a3dhqldkeF3yS47t2hfgyEBhZyZ8TvACcfaWQHKlw9edpxQbEprtJvEnWWPOV8W8g_PwDolLot7IegE1fq2wBhfS5UVX0oI_FMWl0TLIFY2KmiQ_MTelDajjLrTaKC_SKd0InJi6litLAFBbtrevW7mY8gzD6kfHO3nNZGzfo1xI3LX6YIepGGcTxVhDRbDh9Vs-5895vO3JeX6Yg5oytdshAv6zeNpfEFtSih6xza-bNKiFreFOiD0xv9oUzU1gKRVXnkCp_aUxUM0M4ieksqtR55wcY-swPav4uM4F0yS4CMe_RPX6MGCc_9IoO-W822S9PA2BA0abudhbbHetjOW9OWS6JRr_hAlB-NeyuCWsFc8njKdh5BpM46_p5ufQR7gL3ASnbLV6bwqyYehvvCaH83h3lspw70ueeRdjbX5djKavlZDDBukwFbXd1Gf4cpifZGt2jqJbjWQAX2d42N6LjzhWFWGITMWNrUxoW91vz79E-tTeSzdvQrm_0xe3Q3WEbqC7nJB7eWp-IAMThWbFaHWUHc5jdHrZtKKS4BLUwAaCv4tk8r9KRiTaw7A0Gm5lCwHNK7dVddilidVZM6CVgQwaKCEjfW8dywV5baMvCyA6MA2doc4Dd4YSWcaMr4Xt5VFVSlLiNxOtyoRe7DuXp1Jp5m4xuY-kiSpiXQ9629nML8-RIdYOyZaLPdPaAVSBD-cpNdsc77dOc8PaaFf9x6vrtCWWphup2GP5LdTAUALk8wW-VxNlLcp36lN4QITfAQI95DBB_Nu4uz6MGRImFsPgQXbrJZbifbCDO_XlRqqishkKE2S8joaIpr27jkvUtHXA7l4SQLGH-w63ZL0wC6lYgiyYqhi_PcA9tjK3YaE4xHwpR_kXoCNELD7IWmFmKzyxA1-sJD8oM_swpguXiuVL2wn5oFo_GLFtx0Cv3KYwm2RVoQxAezbPDUq-PC9a8OzRDOqZE5I=",
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "Picking up from our previous session — the AI Factory foundation is solid, but we don't have an active project brief yet.\n\nTo implement a React frontend that fits the **Stark Industries AI App Factory** standards, we need to \"freeze intent\" first. Our standard stack is **Next.js 15 (App Router)** with **Tailwind CSS**, **shadcn/ui**, and **Supabase**, as defined in the `APP_ARCHITECTURE_MANUAL`.\n\n### What I Heard\nYou want to kick off the frontend implementation phase. Since we are operating in the Factory, we need to define the **App Brief** before the Engineer agent starts writing code.\n\n### Recommended Next Step\nWe need to run the **Architect Questionnaire** to define the scope. Tell me about the app:\n\n1.  **Mission:** What is the primary purpose of this frontend? (e.g., An operator dashboard for your agents, a customer-facing shop, or a personal dev tool?)\n2.  **Core Users:** Who is the primary user? (Just you, or external customers?)\n3.  **Key Screens:** What are the 3-5 high-level views we need? (e.g., Dashboard, Agent Chat, File Explorer, Settings)\n4.  **Data Source:** Where is the data coming from? (Existing Supabase DB, an external API, or do we need to design the schema from scratch?)\n5.  **Auth Requirement:** Does this need a login, or is it a local/protected tool?\n\n### Risks / Red Flags\n*   **Scope Creep:** React projects often bloat with \"nice-to-have\" components. I will push for a **Frontend-First** approach (mock data first, then real integration) to move faster.\n*   **Version Conflicts:** Using Next.js 15 requires strict adherence to the new `async` params pattern. I've already loaded the manual to ensure the Engineer agent follows this.\n\n### Action Checklist\n1.  [ ] **Define the Mission** (Your response to the questions above).\n2.  [ ] **Draft `APP_BRIEF.md`** (I will do this once you provide the mission).\n3.  [ ] **Draft `FILE_TREE.md`** (Mapping the specific routes for this app).\n4.  [ ] **Draft `DATA_CONTRACT.md`** (Defining the shape of the data the UI expects).\n\n**What are we building?** Give me the raw idea and I'll turn it into the Brief."
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "id": "adk-9a44a130-03c6-4337-bdf8-7b858b7c1d61",
+                "args": {
+                  "skill_name": "SESSION_MEMORY_SKILL"
+                },
+                "name": "invoke_skill"
+              },
+              {
+                "id": "adk-1a52f40f-8b1b-40e3-9cfb-8ba59ce8a2f6",
+                "args": {
+                  "days": 7
+                },
+                "name": "read_session_memory"
+              },
+              {
+                "id": "adk-9aaa8093-d506-454b-aa6e-5b1a1b2cd239",
+                "args": {
+                  "doc_name": "CONTEXT_INDEX"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-d28b3ced-54e8-4674-ab1b-e425249f530b",
+                "args": {
+                  "doc_name": "ARCHITECT_QUESTIONNAIRE"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-1c6ed57f-1cf2-4905-ac22-9294585374ca",
+                "args": {
+                  "doc_name": "FRONTEND_FIRST_PLAYBOOK"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-301f4839-44dd-4f4f-81b6-35b4095c9edb",
+                "args": {
+                  "doc_name": "APP_ARCHITECTURE_MANUAL"
+                },
+                "name": "read_context_doc"
+              }
+            ],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1776153001.973569
+        }
+      ],
+      "session_input": {
+        "app_name": "architect_agent",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1776153640.138952
+    },
+    {
+      "eval_id": "Engineer Prompt Style ",
+      "conversation": [
+        {
+          "invocation_id": "e-1d900c49-a8a8-4a1c-9d66-6c5996da680a",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "Write a prompt for Claude Code to add a new tool to the harness"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": "CsAXAY89a18dVjq8Q0FFkA55D9obU5IebEBr3_V0JiSOjLZMR2HYlMn3N79-z0T6wFKpRSp6MjcEIe_CX0Q6FzHINLE4mr50C-cJ5iuifYYG6l-joj6QIcYEwjhNL9hHt7cUB-4-KgHZgn3B9U2sXh3w_hZZZsIfipAohbKZTmjZQkX7Ebl9P6sO02pdh9FpYJDKhoDxamVyhJ3jeUJEoyxHaucWdB4-dNXl6rP7Rk74t5ZDfgar8GwIZ4hg9G5j5WXOeudgMLwmpDH0zrpdX8Y005epJ1yFQ-hAe8Yx0nfQz0W8NlA7Ew3TQG6irqE17SviqJJv8NJ8UxK4zrOBDEwG10ICtfj0s5gf2q55jXKzAB-qWLurITaQCluRw3ZgC2S1vid7tMNVEjIzvoSBWsQY1TfyTthtFnynRBewhL8zrjyzlWY28cx26zUeWQpBg_OC2tHO8CAnJE6_aEn9OBeUG-YtR9SU9tyvAopFjSdS-ovprxKPO-YR3kvsrBaRV5FCYqQIDLRCvxgARpEoltfub5QJBt7u-NQeNj1o1v761KV_MYOZs9axa6u340_1vRqmyrF-G1Vcv3KuHajvfo4U_uRVIFjfPa6awxWVy3MFCcIjM5_hLbn09sQjRFonOPq-52udmiPxITYOzRiHFQtIb4xyxvba9HC1b_bCK9bSsYd15ZKWANytt4nxNpETLQ6pWJPxVh9nRQEVtL-dp-STSnuzZTQ8CL_t17vhrdG0pQVU9qNF4g7wQjQkLuiDc2fBjQFd_59ImI_p_H8_ShZCD9mfiFn47uTZltW42tznVgwJ6sgM4vgJ5Hc80uud_s_8Tc3og2cHZv20AgaiyV2cueUpebel9P5nbRVWVo3UXqP4FenJbvInlLX8IThy67WceJZUi9OuOkit72ekC3H50Jp6LEYZNTrxhCI_i6d7BqSZlJNhmNTCP98fECW8Y2O5a9T-Q19f9_THrrRlPuylZI8teJgCJMUc9ODAkZkZQb2VsDPUz-sd8R3aLjecNM0cxGtIJA0klD4VJZ1hRmyuRkrwJw4_hGyoMGiUqevr_Ml0x1Jl_HFrXqaLSedlJW4C5Xb5w9la9V29qrFbTqsGQ1BgjBb4SJRs0tD0WeAIsx4VpG3AVdO08ONeM-vr2x3wFam8_oVvsRU6qoPulljlJLm8-XhicENCVm852eh1dPS9GtORaJ6XYG8V8SvMJ8Rh2sNGX0iYqFFBs7F3eywbQ3HWilFl_GdOPrmdy1bDmKAVttXZ1hAyRWHg4LL-hD06jiWrNQ95lrxgciXToLKnoKxu8fU0mWFpY4uk1TzBlLE3F9RHINfo0HjEbtWEwH54c3GlIgOkrjKTFK_UC9RbY3GCKxPRQyVyZc8B5FrbpK9QzAA1UZwQNdaFce6Ezm6EfTY37OO0oQr4kAYCp7peVy82j2GfpVFs2ZIW9zzCwDBaSLtv9fSanS96Cw8Q1XDVkazFaaWazGi_8lbnAeV1Z2tqDMBCrd38D6TbfPnt0wSJkEi8ck9SeP-UT3vAcZtMiyjLtz_WnGGvSQeYOm9avF_6g67lJt-nYtwOFTe-UWeltTmgYUl0C80fVlEwQ-QS1xFomz9B3HQarJO1Zu9SJwp6nOugZb1gsipM7OQf9wkVipHaFSZPjeSWTQ9Agwy2cHjTWE8ccrFdn2RyoWwozKLXCyrNP8DsIucMUEj14N6s1SM2AVIR3rOhbbiVfEaq7sylAebxCay2Khs9-gtXE2VaTAMsYNOhc8WPQ5BWr5tOLg3kMUpXJ7XqVIkfoQMua8PrHCXeIKjOsWjPA-N-S7EyL8XItCdZ1abKcCxojQvHsJ1m0NCTlPksEg33HxTVOGupTkNBUKi18tgsAthzPbSVJRUBGJSpjboiOSpi_Oke96EQjfXfFZ7vN3zIAskdRj7G8XN_lyIaMgaWMIW5Wy4uxx6R1X2hbBI9uC10TxsbFyRe1-wh2GfKQDXruA-tyUbg5QAlLJeNHri3NQx2zj2-X5JHTZuT4h922Gj8KUbkpljatNSkteCfFaKxAuJ2Pfvd6TYNM3BNQGuC9KiJu3OQRZbNZXrjGGdOn3Uf6fINDxIQy7P3t190sJUEfqIKzS-cCGP7QfSNy9dF6TXF1OxW4-ktu-Hx7KHfS9-FhOC2zkdZAaL59VLmL4OMidpGHKjZfH1EEhfcjfZ2t6d3hlCBYADdb8RwIhi9-Zzd9uNpEb4ldmbSiGWiAaWhsLAhF9DL2uC-uRdYLyqdTn1UvRUZw7uAu-q0q1uuoB7WUuPc5zqZFNXzZ45ZYVX69PXK0lSZTwTESS99C3Cbk3Tzk1UKMVBvxgL5SPpy6QaH-NP0Iorlbmkw31TfGRoKo0SFdtpc65WlWEX5LSNnksnvakTA-JPMZGI5bxPKI117lXrMSuRE0W2Z6E2gWuDWPoKdpK1QBDiP7N6Yr-fXWpPwaN-kTVOTL-4Wmj3urg5sf2L8VutBRMz5IM0fcukmG9yPd8Q1b3mtHoeexI3Z5A3mCX2dI4rJc3osr2KY7QMKlDn1kusVLDHkWTQ5ta7Co0geB6F0gw8-iqOI4GzMCFm4wvMXjpj2vkSmBHnPowl2_E5lS-8eXOszejzxcQNnLjDOxBcngnzLjfma_5M2-0jV3_nYXlR9uVoJAs6QThCj9gcgEgFrY2I6FOG39bWP_H1G3yvC4hukOF6tM24U74G7ViDI9kK-bJuknF9gAyM7O9dV0ZOdSlKDJO3NfTDRw6ucbJ9uXbrZmxugrU1Q-ONTV9bwIVEHOhVDqI_z2NI8z5LTcMrpl2ARb3N5rmzqws90afh1BccjYrXdDHenEUt5g8u-qG7DUEPrDfOKVdebEHeaBroMgQDegrKQmfUVlY3n_1Xt_7WfYFVkBzPHKt31d2T3VAlRKMinNtj04NSIQaJxwyb9ws8_sbA1NUehphAKKu9EZMfj3aZYiaMwoJRCoNvrhCA3JPyiJ6pQoZd302GazkpW2GpslgGbE8Ne99QumEUUYr2_TgbQLj-UmykNDnRZze3Mx-bFt8K8mar53pPSfiCCmowssxdJP1cIUSIRbWt1fqw-S08PRVjBjttLlEUkC-2Efy50NYvlwA6dS_5IM7wGmbhh_IWalFHCWoblsTCS_3kqBhJcfteMAvEAt_qjg7kmkulj_cnfd1D0QrIo4EXSTsGSVFBwZMidw49VPHAnn5rTRAaaFIYS1VJYOD3JwqLB2dW9fcLjpWmqgjPPcS5deqdDQwD-VindeeSuhSkeHGLIJnDWSTqUKu_2XjFeeT1cTTI_rD0_Y3giQwF8OftSgh1iOi7TO6yykIZVBHGInK-YjIigI7QKaBYnhFA-GW_3FeBOSsNgAUAmlNIqMyum3trnMtfS7rDZHwk7YFYPnwN0AK56S-ULVBlM48IMGhgtOzwClg_OmtHTWfH0N1H7rPCSduZIN-MkiUqWiJo0KCWOXHRD9ECafy4hscrkRFma8LIwd5t2p_b31wFR0JoeQXdgen1bBbVSHSUQdPsx3qfwR-ywxzYWualQ3lDp9pLc_ptL20TNbZ91T1BqqFgYdMvlUsrUNmOUiVas2oKPJhOAv5rJ2WtHFocP1oeh-fDHriu6zEIlDqNm_-7fTBHyoMqJ3uLFZprv_XeX0H0ONC8hnoXMPRxtRCwgM_iUYBXztO5gayYB1vQJy8DErsf8Vlm_LxSpJCX6G4okn8qR1nzHQBgPPraVzyNcQ0iCabts3gj_UQhVrp7-hd04Gu_lNa79FEbzjyh81A746z3sfQllL7IdiuWqdTs3nkdjV9BWZau1zV8iPPcPuNvN1dOAH60iRVSq7P-JLv-j3SgaF8SZ75-Na9L9C06QXWJqjfyWT-mwH9bqhxIL5pwKE4a_uWBxvIIyB3tVUMN3O2Xv3t9PtwcUUHMfp6ykdQ6oUWPa-D37cc6ClhBdgnXfHqIchNSj0DFjVfs2fjXMtr2WjB_SBlnY_UotrK6DjUBw3TurUMEQbbrPFGsnIuM=",
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "Picking up from our previous session where we established the factory foundation: You are looking for a surgical prompt to hand off to **Claude Code** (or a similar engineering agent) to expand the capabilities of an agent in the ADK harness.\n\n### 1. What I Heard\nYou want a high-precision engineer prompt to add a specific tool to an agent within the existing ADK harness.\n\n### 2. Recommended Next Step\nIdentify the **Tool Name** and the **Target Agent**. Since those weren't specified, I have provided a template below that follows our \"Done Looks Like\" and \"Surgical Scope\" standards.\n\n### 3. Risks / Red Flags\n*   **Tool Source:** If the tool is not part of the standard `google.adk.tools` library, Claude Code will need to write the Python logic for the tool first. \n*   **Environment Variables:** New tools (like Search or Database connectors) often require API keys. Ensure these are added to `.env` and `.env.example`.\n*   **Token Overhead:** Some tools return large datasets. Ensure the tool includes a \"summary\" or \"trim\" function to prevent blowing out the agent's context window.\n\n### 4. Action Checklist (The Prompt)\nProvide the following prompt to Claude Code. Replace the bracketed placeholders with your specific details.\n\n```markdown\n# ENGINEER PROMPT: Add Tool to ADK Agent\n\nTASK: Add the [TOOL_NAME] tool to the [AGENT_NAME] agent.\n\nSCOPE: \n- Primary: agents/[AGENT_NAME]/agent.py\n- Secondary: .env.example (if new credentials are required)\n\nCONSTRAINTS:\n- Use the standard ADK pattern: Import the tool from `google.adk.tools` (or the local tools directory).\n- Add the tool instance to the `tools=[...]` list in the agent's root configuration.\n- Do NOT modify the agent's system instructions, prompt loading logic, or existing tool configurations.\n- Maintain the existing model selection and temperature settings.\n\nDONE LOOKS LIKE:\n- [AGENT_NAME] successfully initializes with [TOOL_NAME] in its toolbelt.\n- The tool is correctly typed and its docstrings are available to the LLM.\n- No other agent files in the harness are modified.\n- Existing regression tests pass.\n\nTESTS:\n- Run a manual test: Ask the agent a question that forces the use of [TOOL_NAME].\n- Verify the tool execution appears in the agent logs/traces.\n- Confirm the tool output is correctly parsed by the agent.\n```\n\n**Which tool and agent are we targeting?** If you give me the names, I can fill in the specifics (like import paths and required ENV vars) to make this even more surgical."
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "id": "adk-13c4546a-4d47-4cec-bd79-d182861dc13a",
+                "args": {},
+                "name": "get_current_datetime"
+              },
+              {
+                "id": "adk-ac6a23be-e5e6-46e5-84e1-34351d4b026b",
+                "args": {
+                  "skill_name": "SESSION_MEMORY_SKILL"
+                },
+                "name": "invoke_skill"
+              },
+              {
+                "id": "adk-494d15cc-59d9-4786-a465-f0d9d9c190f8",
+                "args": {
+                  "days": 7
+                },
+                "name": "read_session_memory"
+              },
+              {
+                "id": "adk-6dda4c9f-00dc-4227-addb-906e1fbecbb2",
+                "args": {
+                  "doc_name": "CONTEXT_INDEX"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-8853e754-a7e1-4c45-9185-c3c5eca3791a",
+                "args": {
+                  "doc_name": "ENGINEER_PLAYBOOK"
+                },
+                "name": "read_context_doc"
+              },
+              {
+                "id": "adk-eeb5ee4b-a2fe-4e52-b90b-67d648ab91ef",
+                "args": {
+                  "doc_name": "APP_ARCHITECTURE_MANUAL"
+                },
+                "name": "read_context_doc"
+              }
+            ],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1776153688.573037
+        }
+      ],
+      "session_input": {
+        "app_name": "architect_agent",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1776153892.6412468
+    },
+    {
+      "eval_id": "temporal_awareness",
+      "conversation": [
+        {
+          "invocation_id": "e-8488d2d8-85b1-46e8-8ff6-87b02c275c49",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "What time is it right now? "
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": "CpUIAY89a1_tCXIPW8ReMA7GyzAzRdmAgitb3WVs68eOMnkDXJCj5X7HhL4OzMWtbZ643xO4T_k-psY_JKg6g6_NszUuPRWtiYguel1feCR35fv42FUC1Ba1R5eumr_oTUkHTwese02AHDKLLurE0obftJ1Ie1_c4fn7UPXfwsE9OTUSuNe08ZLd-ypLzWC2wiIJLA0IewfSeXg0-rMSRMLdMBiZymNKUlAbd3yYUFeC0rhVixiS_I7H-81y4ACdONfFR1-TLCqOk1aBGmVLc4YBpWbASBgHA8F6LPL5uTzvoV0Oqlen3EB09qfm-SsmPWh0CGB8SAXb3jGUehsf4RIRCH2uHfATkM1YaNSxqjnw9Q8uOEATyHDnaC0xrMNzode0Up7rxbovA1xlK0PL8CMrfKCAV3uiohbcal_RbJbwEcVXNl2AoExlmLeFJy-5TG_UotZ0QxrtD89tGRpDonHBpuIoTLLnQ9oD6FwLUllUFeN9teS_8Dr7xJQe7p9ZN-UKujXK9U1gJj9WLwCYRMl0Atlk-Nwo95S84wtuA0-4y4L1D7jGWbGZ4eEUWd8ny2rNSN8pgU2kaMneDcvWmmm_zmO9GUuDTSFxa5sPoTwaY10PTlQkE-Vfneov0i45W6JejKnRwQnfUk8rRXndLCUxSP4beXKGG1pkQlr1ehlOta7JSljK2rybhI4NQEmF-UNHnWZZsLNjdsSROf_i3bO6A9T8Wlyv45g29okxVEoJFbiuVVeDWgyhCbRqw4IjgKQ7GYFo_Pc5Men9tCeYac8WmSa0qqETKeQXR3Dju7hV6FvpFyhYq1so5O96XUrZFPkGyHHaSVKKiqqQohQc9gAqSx8lgA_ycXgpwdj9rJjdzbIhesAY4xwtq05tVZ_BfajmIZHg-abXXW1Xtvihi-INnoStlDCWUCO4jUq7XbAa-w6e-5pvi_K3vhNYmqYkb2285tIAxDq-C-LpQ4kXN1Fl5BU5VrSu9JXZ02GsMtol3mTKJ7aWfO8OK7Hi6eoj5mog4K1PUZpxg9S7QQf36zwpTinA3EnNnvcfL0fchigJYM_dImhC4pboclSIAlfN4GTpozOrq17TuYVJuEiQnu8I8ee7si27bL7qOivHBYbeFe5y7FetwD6HBMTdXRLQmJIvIaPRPEZRrYk9hboTa-pxitsXYiz0dziq295TIHINCwu4mUjn9VSZ0yIR335_l8LPK5e-H2sJN5C14y1y2DnZyAAU_0oyY6IfL9v9_pp_I3OZrxnot5RGzex5_KrZYcfkkl7biXhcINgQwDH47-7HCABN7Z3gosYXn8m1-8HUUQcTBqaOVzLPwCi_lDkYz1f5x78Dr_c_7IbMcLH1jG74Q69ntSRtGqWdsQNOhsoNmZpp1_GaWg==",
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "It is **12:13 UTC** on April 16, 2026.\n\n**Orientation:**\nPicking up from our session earlier today—we have confirmed the session memory protocols and verified the agent foundation. The current state is a clean slate: no active project baseline or **APP_BRIEF.md** has been established yet.\n\nReady to begin the **Architect Questionnaire** to define the next build, or do you have a specific direction in mind?"
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "id": "adk-29364d3a-c146-4355-9111-5760522e895a",
+                "args": {
+                  "skill_name": "SESSION_MEMORY_SKILL"
+                },
+                "name": "invoke_skill"
+              },
+              {
+                "id": "adk-c8f8d28b-1d53-4ca4-900e-c4a64c7122a4",
+                "args": {
+                  "days": 7
+                },
+                "name": "read_session_memory"
+              }
+            ],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1776341625.046053
+        }
+      ],
+      "session_input": {
+        "app_name": "architect_agent",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1776341714.5927804
+    },
+    {
+      "eval_id": "stays_in_role",
+      "conversation": [
+        {
+          "invocation_id": "e-b678fee5-b3e6-4072-b8ca-ddab880f82ba",
+          "user_content": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": null,
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "what is the best pizza in dhaka"
+              }
+            ],
+            "role": "user"
+          },
+          "final_response": {
+            "parts": [
+              {
+                "video_metadata": null,
+                "thought": null,
+                "inline_data": null,
+                "file_data": null,
+                "thought_signature": "CiEBjz1rXxdy_8Gh3zPF8XYQhUyVHTk7KI8mJ1gKeeRRFJ8=",
+                "code_execution_result": null,
+                "executable_code": null,
+                "function_call": null,
+                "function_response": null,
+                "text": "**1. What I Heard**\nYou’re looking for the best pizza recommendations in Dhaka.\n\n**2. Recommended Next Step**\nIf you want authentic Italian style, go to **Pizza Roma** (Banani/Uttara). If you prefer a more localized, loaded-topping style, **Cheez** is the current heavy hitter.\n\n**3. Options**\n*   **The Authentic Pick: Pizza Roma**\n    *   **Pros:** Wood-fired, thin crust, high-quality ingredients, very consistent.\n    *   **Cons:** Higher price point, smaller portions compared to \"American style\" joints.\n    *   **My Pick:** The Roma Special.\n*   **The Popular Pick: Cheez**\n    *   **Pros:** Very generous toppings, great cheese pull, widely popular in the Gulshan/Banani area.\n    *   **Cons:** Can be oily; some recent reports of inconsistent dough quality.\n    *   **My Pick:** The \"Cheez\" signature pizzas.\n\n**4. Risks / Red Flags**\n*   **Traffic:** Dhaka traffic is the ultimate \"pizza killer.\" If you aren't within 2-3km of the shop, the crust will be soggy by the time it reaches you. Always check which branch is closest to you.\n*   **Expectation Gap:** If you like Domino’s style, you might find \"Authentic\" places (like Bella Italia or Pizza Di Wali) too thin or \"sparse.\"\n\n**5. Action Checklist**\n1.  **Identify your style:** Thin/Wood-fired (Pizza Roma, Bella Italia) vs. Thick/Loaded (Cheez, Pizza Guy).\n2.  **Check Location:** Ensure you are ordering from a branch in your zone (Gulshan, Banani, Dhanmondi, or Uttara).\n3.  **Confirm Hours:** Many top-tier pizzerias in Dhaka don't start serving until 12:30 PM or 1:00 PM."
+              }
+            ],
+            "role": null
+          },
+          "intermediate_data": {
+            "tool_uses": [
+              {
+                "id": "adk-8bc3ea65-eb5a-48a7-9171-93cb12c27fd1",
+                "args": {
+                  "request": "best pizza in Dhaka 2024 2025 reviews"
+                },
+                "name": "search_specialist"
+              }
+            ],
+            "intermediate_responses": []
+          },
+          "creation_timestamp": 1776342140.785102
+        }
+      ],
+      "session_input": {
+        "app_name": "architect_agent",
+        "user_id": "user",
+        "state": {}
+      },
+      "creation_timestamp": 1776342226.8979626
+    }
+  ],
+  "creation_timestamp": 1776140412.892859
+}

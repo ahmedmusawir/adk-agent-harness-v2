@@ -1,0 +1,6 @@
+{
+  "agent": "product_agent_rico_1",
+  "project": "ADK Agent Bundle 1",
+  "description": "Rico product specialist smoke tests",
+  "default_dataset": "evals/eval_cases.json"
+}
