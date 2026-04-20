@@ -2,6 +2,46 @@
 
 ---
 
+## 2026-04-19 — [CC] Claude Code — Memory Bank Discovery Workspace (Tests 1–6)
+
+### Scaffolding
+- **Created:** `memory_bank_discovery/` — isolated sandbox for Vertex AI Agent Engine + Memory Bank exploration. No `__init__.py`/`agent.py`, so not picked up by `adk web`. Contains `docs/`, `scripts/`, `.env`, `README.md`, `setup_agent_engine.py`, `list_agent_engines.py`.
+- **Created:** `memory_bank_discovery/.env` — holds `GCP_PROJECT_ID`, `GCP_REGION`, `AGENT_ENGINE_ID`. Gitignored by root `.gitignore:138`.
+
+### Scripts
+- **Created:** `memory_bank_discovery/setup_agent_engine.py` — one-time `vertexai.Client(...).agent_engines.create()` wrapper. Initially printed `agent_engine.name` (no such attribute); fixed to `agent_engine.api_resource.name` after first run. Comment explains the `AgentEngine` → `ReasoningEngine` wrapper indirection.
+- **Created:** `memory_bank_discovery/list_agent_engines.py` — helper to enumerate existing engines (recover resource name without re-provisioning).
+- **Updated:** `memory_bank_discovery/scripts/test_write_memory.py` — stub replaced with full `memories.create()` test. Writes one fact under `scope={"user_id": "tony_stark"}`; prints structured fields + raw `repr(operation)`; re-raises on failure.
+- **Updated:** `memory_bank_discovery/scripts/test_read_memory.py` — stub replaced with three-section read test exercising `memories.list`, `memories.get`, `memories.retrieve`. Sections are independent; summary line shows per-section PASS/FAIL.
+- **Updated:** `memory_bank_discovery/scripts/test_generate_memories.py` — stub replaced with `memories.generate()` test using `direct_contents_source` (synthetic 3-turn transcript). Prints generation latency and per-generated-memory action enum.
+- **Updated:** `memory_bank_discovery/scripts/test_memory_isolation.py` — stub replaced with isolation test: writes a memory under a second `user_id`, then runs `retrieve()` under three scopes (tony/peter/nobody) and asserts (A1) zero cross-user leakage, (A2) unknown-scope returns empty, (A3) new write is retrievable under its owner scope.
+- **Updated:** `memory_bank_discovery/scripts/test_consolidation.py` — stub replaced with consolidation/contradiction test: snapshots tony's memories, sends a contradicting transcript via `generate()` (consolidation ON), snapshots again, diffs by (name, fact). Classifies outcome as STRONG CONSOLIDATION / WEAK / SILENT DROP.
+
+### Docs
+- **Updated:** `memory_bank_discovery/docs/FINDINGS.md` — populated Tests 1-6 (engine creation, direct write, list/get/retrieve, generate, isolation, consolidation/contradiction). Captured API shapes, `Memory` fields, operation-name nesting differences, `AgentEngine` wrapper gotcha, skeletal-response asymmetry on `generate()`, extraction selectivity, first-person voice preservation (including one-way normalization on UPDATE), multi-tenant safety, retrieve-is-exact-match, STRONG in-place consolidation with history preservation, and open questions.
+
+### GCP Artifacts Created (recorded in session log)
+- Agent Engine: `projects/952978338090/locations/us-central1/reasoningEngines/6954288450136702976`
+- Memory #1 (manual write, Test 2 — **UPDATED in Test 6**): `.../memories/3072711962535133184` — scope `{"user_id": "tony_stark"}`. Original fact: "Tony prefers Python for backend development". After Test 6 consolidation: "I now use Go for all my backend work; previously, I preferred Python for backend development." — same resource name, in-place mutation by consolidation.
+- Memory #2 (generated, Test 4): `.../memories/2993336019102728192` — fact "I usually order a flat white with oat milk." (verbatim from user turn), scope `{"user_id": "tony_stark"}`, action=CREATED. Note: one of two input user facts was silently dropped by the extraction pipeline (see FINDINGS.md Test 4).
+- Memory #3 (isolation test, Test 5): `.../memories/4181160420821696512` — fact "Peter prefers Rust for systems programming", scope `{"user_id": "peter_parker"}`, action=CREATED.
+
+### Findings of note (detailed in `memory_bank_discovery/docs/FINDINGS.md`)
+- `AgentEngine` wrapper has no `.name`; resource name lives at `.api_resource.name`.
+- `memories.create()` returns a **hydrated** `Memory` on the operation.response; `memories.generate()` returns a **skeletal** `Memory` (name-only) — caller must `get()` to see fact/scope/timestamps.
+- `memories.generate()` extraction is **selective** — default model silently drops facts it doesn't consider salient. In our test (2 user facts about coffee shop + drink order), only 1 survived extraction.
+- Generated facts are stored in **first-person user voice, verbatim** — no third-person normalization. Manual `create()` writes are whatever text the caller passes.
+- `memories` are **scope-isolated** — retrieve under one `user_id` never returns memories written under a different `user_id`. Multi-tenant safe. `retrieve()` with an unknown scope returns an empty iterator (exact-match strict, not wildcard). `list()` with no scope is an engine-wide admin view.
+- **Consolidation is STRONG and IN-PLACE.** When `generate()` sees a fact contradicting an existing memory, the service returns `action=UPDATED` on the same memory ID and rewrites the fact to capture both current and historical state (e.g., "I now use Go; previously, I preferred Python"). Memory resource names are stable across consolidation. Topically-unrelated memories in the same scope are not touched.
+- Implication for agent integration: **no client-side dedup logic needed**. Feed conversations to `generate()`; the service keeps memory coherent and history-aware.
+- `memories.retrieve()` accepted `name + scope` only (no similarity/simple params); returns `Iterator[RetrieveMemoriesResponseRetrievedMemory]` with `.memory` + `.distance=None` when similarity params absent.
+- Generation model IS configurable but only at engine provision time via `context_spec.memory_bank_config.generation_config.model` — not a per-call parameter. Default embedding model is `text-embedding-005`.
+- Two benign `ExperimentalWarning`s fire on every `agent_engines.memories.*` call — safe to ignore.
+
+- **Reason:** Phase 1 discovery for V2 feature — Vertex Memory Bank integration for the ADK harness. Required wire-level verification of the SDK surface before agent integration.
+
+---
+
 ## 2026-03-23 — [CC] Claude Code — SK-6 Eval Runner + usage report file output
 
 - **Created:** `evals/eval_cases.json` — 5 deterministic test cases for product_agent_rico_1
