@@ -29,7 +29,7 @@ def get_live_instructions(ctx) -> str:
 # Test 6 means re-extracting across gated windows emits UPDATED
 # actions rather than creating duplicates — gate is a cost
 # optimization, not a correctness requirement.
-EXTRACT_EVERY_N_TURNS = 5
+EXTRACT_EVERY_N_TURNS = 2
 
 
 async def persist_session_to_memory_callback(callback_context: CallbackContext) -> None:
@@ -60,7 +60,8 @@ async def persist_session_to_memory_callback(callback_context: CallbackContext) 
 # 3. Update the Agent to use the new LiteLLM client
 root_agent = Agent(
     name="jarvis_agent",
-    model="gemini-2.5-flash",
+    model="gemini-3.1-pro-preview",
+    # model="gemini-2.5-flash",
     # model="gemini-3-flash-preview",
     description="Jarvis agent",
     instruction=get_live_instructions,
@@ -68,7 +69,8 @@ root_agent = Agent(
     before_model_callback=get_start_time_callback(),
     after_model_callback=get_receipt_callback(
         agent_name="jarvis_agent",
-        model="gemini-2.5-flash",
+        model="gemini-3.1-pro-preview",
+        # model="gemini-2.5-flash",
     ),
     after_agent_callback=persist_session_to_memory_callback,
 )
