@@ -2,7 +2,7 @@
 from google.adk.agents import Agent
 from google.adk.agents.callback_context import CallbackContext
 from google.adk.tools import google_search
-from google.adk.tools.preload_memory_tool import preload_memory_tool
+from jarvis_agent.preload_memory_topk import preload_memory_topk_tool
 from utils.gcs_utils import fetch_instructions
 from callbacks.receipt_callback import get_receipt_callback, get_start_time_callback
 
@@ -65,7 +65,7 @@ root_agent = Agent(
     # model="gemini-3-flash-preview",
     description="Jarvis agent",
     instruction=get_live_instructions,
-    tools=[google_search, preload_memory_tool],
+    tools=[google_search, preload_memory_topk_tool],
     before_model_callback=get_start_time_callback(),
     after_model_callback=get_receipt_callback(
         agent_name="jarvis_agent",

@@ -282,6 +282,59 @@ Service reported `(UPDATED, M1)`. Observed diff: 0 disappeared, 0 appeared, 1 ch
 ---
 
 ## Test 7: Jarvis Agent Integration
-**Status:** Not started
-**Date:**
+**Status:** ✅ PASSED (7a read + 7b write both wired and verified live)
+**Date:** 2026-04-20 (7a), 2026-04-22 (7b callback fix + verification), 2026-04-23 (custom top_k fork)
 **Findings:**
+
+### 7a — Read side: `preload_memory_tool` + `--memory_service_uri`
+- ADK ships a first-party `VertexAiMemoryBankService` + `preload_memory_tool` — zero Python wiring needed on the agent, just the CLI flag.
+- `adk web --memory_service_uri=agentengine://<engine_id>` injects the memory service into the runner; `preload_memory_tool` runs before every LLM request and appends matching memories into the system prompt as `<PAST_CONVERSATIONS>`.
+- Scope is auto-built from session: `{"app_name": session.app_name, "user_id": session.user_id}`. Our pre-seeded memory under that two-key scope was retrieved correctly once the `user_id` matched ADK web's hardcoded default `"user"`.
+- **Gotcha:** ADK web's bundled UI hardcodes `userId="user"` — no UI field to change it. Seed memories under that default or run through a custom frontend.
+- **Gotcha:** `preload_memory_tool` doesn't show up as a tool-use event in the ADK web trace panel — it's a `BaseTool` context injector, not a `FunctionTool`. Silent by design.
+
+### 7b — Write side: `after_agent_callback`
+- ADK does NOT auto-call `memory_service.add_session_to_memory(session)`. Confirmed by exhaustive grep of the ADK CLI/runner code + explicit statement in Google's docs at adk.dev/sessions/memory.
+- Official pattern: `after_agent_callback` on the agent that calls `callback_context._invocation_context.memory_service.add_session_to_memory(session)`. Fires per TURN, not per SESSION (ADK has no session-end hook — verified in `base_agent.py:215-245`).
+- Gated via `session.state["memory_turn_count"]` to fire every N turns (cost/latency optimization). Memory Bank consolidation (Test 6) makes redundant re-extraction safe — no duplicate memories.
+- **Gotcha:** must mutate state via `callback_context.state` (the delta-aware wrapper), NOT `ctx.session.state` (raw dict). Raw-dict mutations don't persist across turns because the state_delta → Event → session_service flow isn't triggered.
+- With `N=2` and tuned engine, extraction captures all technical details. Latency on gated turns is ~13-17s; small-session-end tail loss is limited to ≤1 turn.
+
+### Custom top_k fork (added 2026-04-23)
+- ADK's `preload_memory_tool` and `VertexAiMemoryBankService.search_memory` both hardcode `similarity_search_params={"search_query": query}` — no `top_k`, so server default of 3 applies.
+- 3 results isn't enough once the bank has many entries; relevant facts get ranked out of the top 3.
+- Built `jarvis_agent/preload_memory_topk.py` + `jarvis_agent/memory_config.json`: drop-in replacement that calls `memories.retrieve()` directly with `top_k` from config (default 10).
+- Swapped into Jarvis's tools list with 2-line change in `agent.py`. Callback write path unchanged.
+
+---
+
+## Summary
+
+**Discovery lab complete.** Memory Bank is production-viable for the harness — but "out of the box" defaults are inadequate and there are real ADK integration gaps that require custom code.
+
+### What we proved works
+- **End-to-end read-write loop** through ADK + Vertex AI Memory Bank is wireable (Tests 7a + 7b).
+- **Consolidation is strong** — contradictions become in-place `UPDATED` actions on the same memory ID, and the merged fact preserves both new and historical state (Test 6). Clients don't need dedup logic.
+- **Scope isolation is exact-match strict** — zero cross-user leakage (Test 5). Multi-tenant safe.
+- **Server-side extraction is customizable** — topics, few-shots, generation model, and TTL are all tunable per-engine via `context_spec` (verified by the Pass 2 tuning run: 100% capture rate vs. 50% on defaults).
+- **Update-in-place supported** — `client.agent_engines.update(...)` accepts `context_spec`; no need to re-provision the engine when tuning.
+
+### What limitations we found
+- **`top_k` hardcoded at server default of 3** in ADK's `VertexAiMemoryBankService.search_memory` — not configurable through any parameter, env var, or service constructor.
+- **`generate()` default extraction is selective** — with no custom topics or few-shot examples, the default Gemini extractor drops ~50% of technical facts. Only became reliable after Pass 2 tuning.
+- **No session-end hook in ADK** — `after_agent_callback` fires per turn, not per session. Every write strategy has to live with per-turn gating or client-managed lifecycle.
+- **Model under-calls an explicit `remember_fact` tool** — with Gemini 2.5 Flash, model-initiated memory persistence is unreliable. User has to explicitly ask "remember X" for it to fire.
+- **TTL `oneof` constraint not surfaced by the SDK** — both `default_ttl` and `granular_ttl_config` are Optional at the pydantic layer, but the server enforces mutually-exclusive; sending both is a 400.
+- **ADK web bundled UI hardcodes `user_id="user"`** in its JavaScript — no field to override. Custom frontends or direct API calls required for real multi-user deployments.
+
+### What we built to fix them
+- **Engine tuning** (`memory_bank_discovery/scripts/update_engine_config.py`) — 4 managed topics, 4 custom topics (architectural_decisions, project_constraints, lessons_learned, technology_stack), 3 few-shot examples, `gemini-2.5-pro` generation model, granular TTL. Transformed extraction quality from "selective and lossy" to "complete and nuanced."
+- **Custom `PreloadMemoryTopK` tool** (`jarvis_agent/preload_memory_topk.py` + `memory_config.json`) — drop-in replacement for `preload_memory_tool`; bypasses ADK's service layer and calls `memories.retrieve()` directly with configurable `top_k` (default 10).
+- **Callback-based write path** (`persist_session_to_memory_callback` in `jarvis_agent/agent.py`) — turn-count-gated `after_agent_callback` that fires `memory_service.add_session_to_memory()` every N turns (currently 2). Uses `callback_context.state` for delta-aware persistence.
+- **Full toolkit for scope-based ops** (`list_scopes.py`, `list_memories_by_scope.py`, `add_memory_for_scope.py`, `cleanup_memories_by_scope.py`) — give us CRUD-by-scope mastery for ongoing operations.
+
+### What's deferred to v3
+- **OpenBrain MCP server** with single-key scope (`{"user_id": X}` only) so memories are shared across all harness agents, not siloed per-agent. Decouples memory ownership from which agent wrote it.
+- **Memory-specific eval suite** — scoring extraction accuracy, retrieval recall-at-K, consolidation correctness, isolation guarantees. Using the Vertex AI Evaluation Service we validated earlier for other metrics.
+- **Integration into Architect agent** — coexistence with the existing session-file-based memory (which is reliable for ephemeral state) while Memory Bank handles durable facts.
+- **Custom `recall_memories` tool for MCP clients** — replaces `preload_memory_tool` when operating under the shared-scope architecture; exposes similar behavior to agents connecting via MCP rather than running in-process in the harness.

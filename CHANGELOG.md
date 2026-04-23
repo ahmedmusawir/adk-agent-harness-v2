@@ -2,6 +2,34 @@
 
 ---
 
+## 2026-04-23 — [CC] Claude Code — Memory Bank Discovery Lab CLOSED
+
+Discovery lab complete. Read-write loop through Vertex AI Memory Bank is live in the Jarvis agent with tuned engine + custom top_k fork. Next phase (v3) is deferred: OpenBrain MCP with shared-scope memory across all harness agents.
+
+### Final state
+- **Engine tuned in place** — 4 managed + 4 custom topics, 3 few-shot examples, `gemini-2.5-pro` generation, granular TTL (1y/30d/90d per write type). `display_name`/`description` set.
+- **Custom read tool** at `jarvis_agent/preload_memory_topk.py` + `jarvis_agent/memory_config.json` — drop-in replacement for ADK's `preload_memory_tool`; calls `memories.retrieve()` directly with `top_k=10` (configurable via JSON).
+- **Write path** via `after_agent_callback` with turn-count gate (every 2 turns) firing `add_session_to_memory()`. Uses `callback_context.state` for delta-aware persistence.
+- **Toolkit** of 4 scope-based ops scripts (`list_scopes`, `list_memories_by_scope`, `add_memory_for_scope`, `cleanup_memories_by_scope`) plus inspection + tuning + validation scripts.
+
+### Key files
+- **Created:** `memory_bank_discovery/docs/HANDOFF_REPORT.md` — handoff for v3 phase.
+- **Updated:** `memory_bank_discovery/docs/FINDINGS.md` — Test 7 marked PASSED; added final Summary section (proved / limitations / what we built / deferred to v3).
+- **Created during lab:** `memory_bank_discovery/scripts/inspect_engine_config.py`, `update_engine_config.py`, `test_tuned_generate.py`, `list_scopes.py`, `list_memories_by_scope.py`, `add_memory_for_scope.py`, `cleanup_memories_by_scope.py`, `seed_jarvis_memory.py`, `run_jarvis_web.sh`.
+- **Created during lab:** `jarvis_agent/preload_memory_topk.py`, `jarvis_agent/memory_config.json`.
+- **Created during lab:** `memory_bank_discovery/docs/ENGINE_TUNING_INSPECTION.md` — Pass 1 inspection + Pass 2 tuning results with SDK source citations.
+- **Created during lab:** `docs/VERTEX_MEM_BANK_TEST_FOR_YOUTUBE.md` — narrative walk-through reference.
+
+### Deferred to v3
+- OpenBrain MCP server with single-key scope `{"user_id": X}` for shared memory across all harness agents.
+- Memory-specific eval suite (extraction accuracy, retrieval recall-at-K, consolidation correctness).
+- Architect agent integration — coexistence of session-file memory + Memory Bank.
+- Custom `recall_memories` MCP tool replacing preload for shared-scope architecture.
+
+- **Reason:** closes out v2 Memory Bank integration. Proves the read-write loop is production-viable with tuning + one tool fork. Hands off a clean foundation for v3's OpenBrain MCP work.
+
+---
+
 ## 2026-04-19 — [CC] Claude Code — Memory Bank Discovery Workspace (Tests 1–6)
 
 ### Scaffolding
